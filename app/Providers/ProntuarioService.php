@@ -4,15 +4,15 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Request;
-use app\Contracts\Repositories\Paciente\PacienteRepository;
-use app\Contracts\Repositories\Prontuario\ProntuarioRepository;
+use App\Repositories\Paciente\PacienteRepository;
+use app\Repositories\Prontuario\ProntuarioRepository;
 
 class ProntuarioService extends ServiceProvider
 {
 
-    protected $paciente;
+    private $paciente;
 
-    protected $prontuario;
+    private $prontuario;
 
     //constutor
 
@@ -26,16 +26,16 @@ class ProntuarioService extends ServiceProvider
     //salvar
 
     public function store(Request $request){
-        $this->prontuario->store($request);
+        $this->prontuario->createProntuario($request);
 
-        $this->paciente->store($request);
+        $this->paciente->createPaciente($request);
     }
 
     //realizar alteração
 
     public function update($id, Request $dados) {
-        $this->prontuario->update($id, $dados);
+        $this->prontuario->updateProntuario($id, $dados);
 
-        $this->paciente->update($id, $dados);
+        $this->paciente->updatePaciente($id, $dados);
     }
 }

@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use app\Contracts\Repositories\Prontuario\ProntuarioRepository;
+use app\Repositories\Prontuario\ProntuarioRepository;
 use app\Providers\ProntuarioService;
 
 
 class ProntuarioController extends Controller 
 {
-    protected $service;
-    protected $repository;
+    private $service;
+    private $repository;
 
     public function __construct(ProntuarioService $construtorService, ProntuarioRepository $construtorRepositorio)
     {
