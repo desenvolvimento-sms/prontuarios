@@ -14,12 +14,11 @@ return new class extends Migration
         Schema::create('prontuarios', function (Blueprint $table) {
             $table->id();
             $table->string('num_prontuario');
-            $table->timestamp('dt_criacao');
-            $table->timestamp('dt_atualizacao');
             $table->softDeletes('dt_exclusao')->nullable();
             $table->longText('observacoes')->nullable();
             $table->unsignedBigInteger('criado_por');
             $table->unsignedBigInteger('id_paciente');
+            $table->timestamps();
         });
     }
 
