@@ -1,0 +1,91 @@
+version: '3'
+services:
+    server:
+        container_name: prontuarios_nginx
+        image: nginx:stable-alpine
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "80:80"
+            - "443:443"
+        volumes:
+            - ./:/var/www
+            - ./nginx/conf.d/:/etc/nginx/conf.d/
+        networks:
+            - prontuarios_network
+        depends_on:
+            - app
+            - database
+
+    app:
+        container_name: prontuarios_app
+        build:
+            context: .
+            dockerfile: Dockerfile
+        restart: unless-stopped
+        tty: true
+        environment:
+            SERVICE_NAME: app
+            SERVICE_TAGS: dev
+            XDEBUG_MODE: '${APP_XDEBUG_MODE:-off}'
+            XDEBUG_CONFIG: '${APP_XDEBUG_CONFIG:-client_host=host.docker.internal}'
+        working_dir: /var/www
+        networks:
+            - prontuarios_network
+        volumes:
+            - ./:/var/www
+
+    database:
+        image: mysql:5.7.22
+        container_name: prontuarios_db
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ROOT_HOST: "%"
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        volumes:
+            - 'prontuarios_volume:/var/lib/mysql'
+        networks:
+            - prontuarios_network
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
+            retries: 3
+            timeout: 5s
+
+    usuarios:
+        image: mysql:5.7.22
+        container_name: usuarios_db
+        restart: unless-stopped
+        tty: true
+        ports:
+            - "3307:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: '${USUARIOS_PASSWORD}'
+            MYSQL_ROOT_HOST: "%"
+            MYSQL_DATABASE: '${USUARIOS_DATABASE}'
+            MYSQL_USER: '${USUARIOS_USERNAME}'
+            MYSQL_PASSWORD: '${USUARIOS_PASSWORD}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        volumes:
+            - 'usuarios_volume:/var/lib/mysql'
+        networks:
+            - prontuarios_network
+        healthcheck:
+            test: [ "CMD", "mysqladmin", "ping", "-p${USUARIOS_PASSWORD}" ]
+            retries: 3
+            timeout: 5s
+
+networks:
+    prontuarios_network:
+        driver: bridge
+volumes:
+    prontuarios_volume:
+        driver: local
+    usuarios_volume:
+        driver: local
