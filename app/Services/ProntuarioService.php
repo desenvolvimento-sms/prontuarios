@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Providers;
+namespace App\Services;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Request;
@@ -26,16 +26,22 @@ class ProntuarioService extends ServiceProvider
     //salvar
 
     public function store(Request $request){
-        $this->prontuario->createProntuario($request);
 
-        $this->paciente->createPaciente($request);
+
+        $criacaoPaciente = $this->paciente->createPaciente($request->all());
+
+        $this->prontuario->createProntuario($request->all(), $criacaoPaciente->id);
+
+        
     }
 
     //realizar alteração
 
-    public function update($id, Request $dados) {
-        $this->prontuario->updateProntuario($id, $dados);
+    public function update($id, Request $request) {
 
-        $this->paciente->updatePaciente($id, $dados);
+        $atualizacaoPaciente = $this->paciente->updatePaciente($id, $request->all());
+
+        $this->prontuario->updateProntuario($id, $atualizacaoPaciente->id, $request->all());
+        
     }
 }

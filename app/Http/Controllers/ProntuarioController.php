@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use app\Repositories\Prontuario\ProntuarioRepository;
-use app\Providers\ProntuarioService;
+use app\Services\ProntuarioService;
 
 
 class ProntuarioController extends Controller 
