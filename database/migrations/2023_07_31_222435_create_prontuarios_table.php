@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('prontuarios', function (Blueprint $table) {
             $table->id();
             $table->string('num_prontuario');
-            $table->softDeletes('dt_exclusao')->nullable();
+            $table->softDeletes('deleted_at')->nullable();
             $table->longText('observacoes')->nullable();
             $table->unsignedBigInteger('criado_por');
             $table->unsignedBigInteger('id_paciente');

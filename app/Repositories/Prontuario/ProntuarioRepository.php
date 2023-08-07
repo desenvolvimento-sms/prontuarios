@@ -2,7 +2,7 @@
 
 namespace App\Repositories\Prontuario;
 
-use App\Contracts\Repositories\ProntuarioRepositoryInterface;
+use App\Contracts\Repositories\Prontuario\ProntuarioRepositoryInterface;
 use App\Models\Prontuario;
 
 class ProntuarioRepository implements ProntuarioRepositoryInterface
@@ -20,7 +20,7 @@ class ProntuarioRepository implements ProntuarioRepositoryInterface
     public function softDelete($id)
     {
         $prontuario = Prontuario::find($id);
-        $prontuario->delete();}
+        return $prontuario->delete($id);}
 
     public function createProntuario(array $dados_pront)
     {
@@ -29,6 +29,7 @@ class ProntuarioRepository implements ProntuarioRepositoryInterface
 
     public function updateProntuario($id, array $dados_novos)
     {
-        return Prontuario::whereId($id)->update($dados_novos);
+        $prontuario = Prontuario::find($id);
+        $prontuario->update($dados_novos);
     }
 } 

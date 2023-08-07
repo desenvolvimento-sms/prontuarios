@@ -5,7 +5,7 @@ namespace App\Services;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Request;
 use App\Repositories\Paciente\PacienteRepository;
-use app\Repositories\Prontuario\ProntuarioRepository;
+use App\Repositories\Prontuario\ProntuarioRepository;
 
 class ProntuarioService extends ServiceProvider
 {
@@ -30,7 +30,7 @@ class ProntuarioService extends ServiceProvider
 
         $criacaoPaciente = $this->paciente->createPaciente($request->all());
 
-        $this->prontuario->createProntuario($request->all(), $criacaoPaciente->id);
+        return $this->prontuario->createProntuario($request->all(), $criacaoPaciente->id);
 
         
     }
@@ -39,9 +39,9 @@ class ProntuarioService extends ServiceProvider
 
     public function update($id, Request $request) {
 
-        $atualizacaoPaciente = $this->paciente->updatePaciente($id, $request->all());
+        $this->paciente->updatePaciente($id, $request->all());
 
-        $this->prontuario->updateProntuario($id, $atualizacaoPaciente->id, $request->all());
+        return $this->prontuario->updateProntuario($id, $request->all());
         
     }
 }

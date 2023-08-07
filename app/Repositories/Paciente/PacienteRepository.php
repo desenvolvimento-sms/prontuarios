@@ -2,8 +2,9 @@
 
 namespace App\Repositories\Paciente;
 
-use App\Contracts\Repositories\PacienteRepositoryInterface;
+use App\Contracts\Repositories\Paciente\PacienteRepositoryInterface;
 use App\Models\Paciente;
+use PhpParser\Node\Stmt\Return_;
 
 class PacienteRepository implements PacienteRepositoryInterface
 {
@@ -17,7 +18,8 @@ class PacienteRepository implements PacienteRepositoryInterface
     }
     public function deletePaciente($id)
     {
-        Paciente::destroy($id);
+        $paciente = Paciente::find($id);
+        return $paciente->delete($id);
     }
     public function createPaciente(array $dados)
     {
@@ -25,6 +27,7 @@ class PacienteRepository implements PacienteRepositoryInterface
     }
     public function updatePaciente($id, array $dados_novos)
     {
-        return Paciente::whereId($id)->update($dados_novos);
+        $paciente =  Paciente::find($id);
+        return $paciente->update($dados_novos);
     }
 } 

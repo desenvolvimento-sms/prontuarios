@@ -16,8 +16,9 @@ class Prontuario extends Model
         'observacoes',
         'dt_criacao',
         'dt_atualizacao',
-        'dt_exclusao',
-        'id_paciente'
+        'deleted_at',
+        'id_paciente',
+        'criado_por',
     ];
 
     public function paciente(): BelongsTo

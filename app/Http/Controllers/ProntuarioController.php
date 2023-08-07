@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use app\Repositories\Prontuario\ProntuarioRepository;
-use app\Services\ProntuarioService;
+use App\Repositories\Prontuario\ProntuarioRepository;
+use App\Services\ProntuarioService;
 
 
 class ProntuarioController extends Controller 
@@ -21,13 +21,13 @@ class ProntuarioController extends Controller
 
     public function salvar(Request $request)
     {
-        $this->service->store($request);
+       return $this->service->store($request);
     }
 
     public function atualizar($id, Request $request){
-        $this->service->update($id, $request);
+        return $this->service->update($id, $request);
     }
     public function remover($id){
-        $this->repository->softDelete($id);
+        return $this->repository->softDelete($id);
     }
 }
