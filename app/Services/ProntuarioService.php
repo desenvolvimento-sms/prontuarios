@@ -27,10 +27,23 @@ class ProntuarioService extends ServiceProvider
 
     public function store(Request $request){
 
+        $nome_completo = $request->input('nome_completo');
+        $nome_mae = $request->input('nome_mae');
+        $nome_pai = $request->input('nome_pai');
+        $cns = $request->input('cns');
+        $genero = $request->input('genero');
+        $data_nasc = $request->input('data_nasc');
+        $cpf = $request->input('cpf');
+        
+        $num_prontuario = $request->input('num_prontuario');
+        $observacoes = $request->input('observacoes');
+        $criado_por = $request->input('criado_por');
+        $id_paciente = $request->input('id_paciente');
 
-        $criacaoPaciente = $this->paciente->createPaciente($request->all());
 
-        return $this->prontuario->createProntuario($request->all(), $criacaoPaciente->id);
+        $criacaoPaciente = $this->paciente->createPaciente($nome_completo, $nome_mae, $nome_pai, $cns, $genero, $data_nasc, $cpf);
+
+        return $this->prontuario->createProntuario($criacaoPaciente->id, $num_prontuario, $observacoes, $criado_por, $id_paciente);
 
         
     }
@@ -39,9 +52,22 @@ class ProntuarioService extends ServiceProvider
 
     public function update($id, Request $request) {
 
-        $this->paciente->updatePaciente($id, $request->all());
+        $nome_completo = $request->input('nome_completo');
+        $nome_mae = $request->input('nome_mae');
+        $nome_pai = $request->input('nome_pai');
+        $cns = $request->input('cns');
+        $genero = $request->input('genero');
+        $data_nasc = $request->input('data_nasc');
+        $cpf = $request->input('cpf');
 
-        return $this->prontuario->updateProntuario($id, $request->all());
+        $num_prontuario = $request->input('num_prontuario');
+        $observacoes = $request->input('observacoes');
+        $criado_por = $request->input('criado_por');
+        $id_paciente = $request->input('id_paciente');
+
+        $this->paciente->updatePaciente($id, $nome_completo, $nome_mae, $nome_pai, $cns, $genero, $data_nasc, $cpf);
+
+        return $this->prontuario->updateProntuario($id, $num_prontuario, $observacoes, $criado_por, $id_paciente);
         
     }
 }
