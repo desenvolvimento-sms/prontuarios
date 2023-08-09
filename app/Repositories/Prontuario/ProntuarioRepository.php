@@ -22,14 +22,24 @@ class ProntuarioRepository implements ProntuarioRepositoryInterface
         $prontuario = Prontuario::find($id);
         return $prontuario->delete($id);}
 
-    public function createProntuario(array $dados_pront)
+    public function createProntuario(string $num_prontuario, string $observacoes, int $criado_por, int $id_paciente)
     {
-        return Prontuario::create($dados_pront);
+        return Prontuario::create([
+            'num_prontuario' => $num_prontuario,
+            'observacoes' => $observacoes,
+            'criado_por' => $criado_por,
+            'id_paciente' => $id_paciente,
+            ]);
     }
 
-    public function updateProntuario($id, array $dados_novos)
+    public function updateProntuario($id, string $num_prontuario, string $observacoes, int $criado_por, int $id_paciente)
     {
         $prontuario = Prontuario::find($id);
-        $prontuario->update($dados_novos);
+        return $prontuario->update([
+            'num_prontuario' => $num_prontuario,
+            'observacoes' => $observacoes,
+            'criado_por' => $criado_por,
+            'id_paciente' => $id_paciente,
+            ]);
     }
 } 
